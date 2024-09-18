@@ -6,32 +6,51 @@ import com.mesafacil.dominio.reserva.restaurante.model.HorarioFuncionamento;
 import com.mesafacil.dominio.reserva.restaurante.model.Restaurante;
 import com.mesafacil.dominio.reserva.restaurante.repository.HorarioFuncionamentoRepository;
 import com.mesafacil.dominio.reserva.restaurante.repository.RestauranteRepository;
-import com.mesafacil.dominio.reserva.restaurante.useCase.ChecarHorarioConflitanteUseCase;
+import com.mesafacil.dominio.reserva.restaurante.useCase.UseCaseRestauranteHorario;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
+@CacheConfig(cacheNames = {"restauranteCache"})
 public class RestauranteService {
 
     private final HorarioFuncionamentoRepository horarioFuncionamentoRepository;
     private final RestauranteRepository restauranteRepository;
-    private final ChecarHorarioConflitanteUseCase checarHorarioConflitanteUseCase;
     private final HorarioFuncionamentoMapper horarioFuncionamentoMapper;
+    private final List<UseCaseRestauranteHorario> useCaseRestauranteHorarios;
 
+    @CacheEvict(allEntries = true, cacheNames = "restauranteCache")
     public void cadastrar(Restaurante restaurante) {
         restauranteRepository.save(restaurante);
     }
 
+    @CacheEvict(allEntries = true, cacheNames = "restauranteCache")
     public HorarioFuncionamento registrarHorarioFuncionamento(HorarioFuncionamentoDto horarioFuncionamentoDto) {
-        checarHorarioConflitanteUseCase.execute(horarioFuncionamentoDto);
+        useCaseRestauranteHorarios
+                .forEach(validacao -> validacao.validar(horarioFuncionamentoDto));
         HorarioFuncionamento horarioFuncionamento = horarioFuncionamentoMapper.dtoToEntity(horarioFuncionamentoDto);
         horarioFuncionamentoRepository.save(horarioFuncionamento);
         return horarioFuncionamento;
     }
 
 
+    /**
+     * unless = "#result == null": Indica que o resultado não será armazenado no cache se for nulo.
+     * Isso é útil para evitar armazenar resultados vazios.
+     * @return
+     */
+    @Cacheable( unless = "#result == null ")
+    public Page<Restaurante> consultar(Pageable pageable){
+        return restauranteRepository.findAll(pageable);
+    }
 
 
 }

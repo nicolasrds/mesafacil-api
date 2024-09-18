@@ -25,4 +25,7 @@ public record HorarioFuncionamentoDto(
         @NotNull
         LocalTime horaFechamento
 ) {
+        public boolean isHorarioAberturaValido(){
+                return horaAbertura.getHour() < 6;
+        }
 }

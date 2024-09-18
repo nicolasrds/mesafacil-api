@@ -5,17 +5,17 @@ import com.mesafacil.dominio.reserva.restaurante.repository.HorarioFuncionamento
 import com.mesafacil.infra.exception.RegraDeNegocioException;
 import com.mesafacil.infra.util.MessageService;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
-public class ChecarHorarioConflitanteUseCase {
+public class ChecarHorarioConflitante implements UseCaseRestauranteHorario {
 
     private final HorarioFuncionamentoRepository horarioFuncionamentoRepository;
     private final MessageService messageService;
 
-    public void execute(HorarioFuncionamentoDto horarioFuncionamento) {
+    @Override
+    public void validar(HorarioFuncionamentoDto horarioFuncionamento) {
         boolean existeHorarioConflitante = horarioFuncionamento.listaDiaDaSemana().stream()
                 .anyMatch(diaDaSemana -> horarioFuncionamentoRepository.existeHorarioConflitante(
                         horarioFuncionamento.horaAbertura(), diaDaSemana));

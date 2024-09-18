@@ -13,6 +13,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +29,13 @@ public class RestauranteResource {
     private final RestauranteService restauranteService;
     private final RestauranteMapper restauranteMapper;
     private final HorarioFuncionamentoMapper horarioFuncionamentoMapper;
+
+
+    @GetMapping
+    @Operation(summary = "Buscar os restaurantes registrados.", method = "GET")
+    public Page<RestauranteDto> consultarTodos(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
+        return restauranteService.consultar(paginacao).map(restauranteMapper::entityToDto);
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
