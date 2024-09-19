@@ -1,10 +1,13 @@
 package com.mesafacil.dominio.reserva.restaurante.service;
 
 import com.mesafacil.dominio.reserva.restaurante.entity.HorarioFuncionamentoDto;
+import com.mesafacil.dominio.reserva.restaurante.entity.MesaDto;
 import com.mesafacil.dominio.reserva.restaurante.mapper.HorarioFuncionamentoMapper;
 import com.mesafacil.dominio.reserva.restaurante.model.HorarioFuncionamento;
+import com.mesafacil.dominio.reserva.restaurante.model.Mesa;
 import com.mesafacil.dominio.reserva.restaurante.model.Restaurante;
 import com.mesafacil.dominio.reserva.restaurante.repository.HorarioFuncionamentoRepository;
+import com.mesafacil.dominio.reserva.restaurante.repository.MesaRepository;
 import com.mesafacil.dominio.reserva.restaurante.repository.RestauranteRepository;
 import com.mesafacil.dominio.reserva.restaurante.useCase.UseCaseRestauranteHorario;
 import lombok.AllArgsConstructor;
@@ -26,6 +29,7 @@ public class RestauranteService {
     private final RestauranteRepository restauranteRepository;
     private final HorarioFuncionamentoMapper horarioFuncionamentoMapper;
     private final List<UseCaseRestauranteHorario> useCaseRestauranteHorarios;
+    private final MesaRepository mesaRepository;
 
     @CacheEvict(allEntries = true, cacheNames = "restauranteCache")
     public void cadastrar(Restaurante restaurante) {
@@ -41,6 +45,10 @@ public class RestauranteService {
         return horarioFuncionamento;
     }
 
+    @CacheEvict(allEntries = true, cacheNames = "mesaCache")
+    public void cadastrarMesa(Mesa mesa) {
+        mesaRepository.save(mesa);
+    }
 
     /**
      * unless = "#result == null": Indica que o resultado não será armazenado no cache se for nulo.

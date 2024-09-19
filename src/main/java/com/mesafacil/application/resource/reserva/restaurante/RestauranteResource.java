@@ -5,6 +5,7 @@ import com.mesafacil.application.util.UriUtil;
 import com.mesafacil.dominio.reserva.restaurante.entity.HorarioFuncionamentoDto;
 import com.mesafacil.dominio.reserva.restaurante.entity.RestauranteDto;
 import com.mesafacil.dominio.reserva.restaurante.mapper.HorarioFuncionamentoMapper;
+import com.mesafacil.dominio.reserva.restaurante.mapper.MesaMapper;
 import com.mesafacil.dominio.reserva.restaurante.mapper.RestauranteMapper;
 import com.mesafacil.dominio.reserva.restaurante.model.HorarioFuncionamento;
 import com.mesafacil.dominio.reserva.restaurante.model.Restaurante;
@@ -29,6 +30,7 @@ public class RestauranteResource {
     private final RestauranteService restauranteService;
     private final RestauranteMapper restauranteMapper;
     private final HorarioFuncionamentoMapper horarioFuncionamentoMapper;
+    private final MesaMapper mesaMapper;
 
 
     @GetMapping
