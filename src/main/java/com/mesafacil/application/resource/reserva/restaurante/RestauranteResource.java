@@ -3,11 +3,13 @@ package com.mesafacil.application.resource.reserva.restaurante;
 
 import com.mesafacil.application.util.UriUtil;
 import com.mesafacil.dominio.reserva.restaurante.entity.HorarioFuncionamentoDto;
+import com.mesafacil.dominio.reserva.restaurante.entity.MesaDto;
 import com.mesafacil.dominio.reserva.restaurante.entity.RestauranteDto;
 import com.mesafacil.dominio.reserva.restaurante.mapper.HorarioFuncionamentoMapper;
 import com.mesafacil.dominio.reserva.restaurante.mapper.MesaMapper;
 import com.mesafacil.dominio.reserva.restaurante.mapper.RestauranteMapper;
 import com.mesafacil.dominio.reserva.restaurante.model.HorarioFuncionamento;
+import com.mesafacil.dominio.reserva.restaurante.model.Mesa;
 import com.mesafacil.dominio.reserva.restaurante.model.Restaurante;
 import com.mesafacil.dominio.reserva.restaurante.service.RestauranteService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -56,5 +58,14 @@ public class RestauranteResource {
         HorarioFuncionamento horarioFuncionamento = restauranteService.registrarHorarioFuncionamento(horarioFuncionamentoDto);
         return ResponseEntity.created(UriUtil.createUriWithId(horarioFuncionamento.getId()))
                 .body(horarioFuncionamentoMapper.entityToDto(horarioFuncionamento));
+    }
+
+    @PostMapping("/cadastrar-mesa")
+    @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Cadastra uma nova mesa.", method = "PUT")
+    public ResponseEntity<MesaDto> cadastrarMesa(@Valid @RequestBody MesaDto mesaDto) {
+        Mesa mesa = restauranteService.cadastrarMesa(mesaDto);
+        return ResponseEntity.created(UriUtil.createUriWithId(mesa.getId()))
+                .body(mesaMapper.entityToDto(mesa));
     }
 }

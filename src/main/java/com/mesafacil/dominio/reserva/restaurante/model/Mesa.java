@@ -1,7 +1,9 @@
 package com.mesafacil.dominio.reserva.restaurante.model;
 
 import com.mesafacil.dominio.reserva.restaurante.entity.MesaDto;
+import com.mesafacil.dominio.reserva.restaurante.enumeration.Status;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table
+@Table(name = "mesa", schema = "reserva")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,7 +21,7 @@ public class Mesa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "mesa_id")
-    private Long idMesa;
+    private Long id;
 
     @NotNull
     @ManyToOne()
@@ -32,11 +34,11 @@ public class Mesa {
     private int numeroMesa;
 
     @NotNull
-    @Column(name = "mesa_capacidade", nullable = false)
-    private int capacidadeMesa;
+    @Column(name = "status", nullable = false)
+    private Status status;
 
-    public Mesa(MesaDto mesaDto){
-
+    @AssertTrue(message = "Mesa disponível.")
+    public boolean isDisponivel(){
+        return status == Status.DISPONIVEL;
     }
-
 }

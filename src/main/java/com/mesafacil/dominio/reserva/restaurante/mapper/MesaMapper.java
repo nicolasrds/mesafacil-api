@@ -11,9 +11,9 @@ public interface MesaMapper {
 
     MesaMapper INSTANCE = Mappers.getMapper(MesaMapper.class);
 
-    @Mapping(source = "idRestaurante", target = "restaurante.id")
+    @Mapping(source = "idMesa", target = "mesa.id")
     Mesa dtoToEntity(MesaDto dto);
-    @Mapping(source = "restaurante.id", target = "idRestaurante")
+    @Mapping(source = "mesa.id", target = "idMesa")
     MesaDto entityToDto(Mesa mesa);
 
 }
