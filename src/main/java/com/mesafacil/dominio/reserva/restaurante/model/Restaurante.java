@@ -4,10 +4,7 @@ import com.mesafacil.dominio.reserva.restaurante.entity.RestauranteDto;
 import com.mesafacil.dominio.reserva.restaurante.enumeration.TipoDeCulinaria;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.List;
@@ -15,6 +12,7 @@ import java.util.List;
 @Entity
 @Table(name = "restaurante", schema = "reserva")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
