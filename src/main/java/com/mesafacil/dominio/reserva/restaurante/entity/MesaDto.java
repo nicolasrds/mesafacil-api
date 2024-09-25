@@ -1,6 +1,6 @@
 package com.mesafacil.dominio.reserva.restaurante.entity;
 
-import com.mesafacil.dominio.reserva.restaurante.enumeration.Status;
+import com.mesafacil.dominio.reserva.restaurante.enumeration.DisponibilidadeMesa;
 import jakarta.validation.constraints.NotNull;
 
 public record MesaDto(
@@ -15,9 +15,9 @@ public record MesaDto(
         int numeroMesa,
 
         @NotNull
-        Status status
+        DisponibilidadeMesa status
 ) {
         public boolean isDisponivel(){
-                return status == Status.DISPONIVEL;
+                return status == DisponibilidadeMesa.DISPONIVEL;
         }
 }

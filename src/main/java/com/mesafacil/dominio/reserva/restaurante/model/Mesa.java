@@ -1,13 +1,10 @@
 package com.mesafacil.dominio.reserva.restaurante.model;
 
-import com.mesafacil.dominio.reserva.restaurante.entity.MesaDto;
-import com.mesafacil.dominio.reserva.restaurante.enumeration.Status;
+import com.mesafacil.dominio.reserva.restaurante.enumeration.DisponibilidadeMesa;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-
-import java.util.UUID;
 
 @Entity
 @Table(name = "mesa", schema = "reserva")
@@ -20,7 +17,7 @@ public class Mesa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "mesa_id")
+    @Column(name = "mes_id")
     private Long id;
 
     @NotNull
@@ -30,15 +27,15 @@ public class Mesa {
     private Restaurante restaurante;
 
     @NotNull
-    @Column(name = "mesa_numero", nullable = false)
+    @Column(name = "mes_numero", nullable = false)
     private int numeroMesa;
 
     @NotNull
-    @Column(name = "status", nullable = false)
-    private Status status;
+    @Column(name = "dis_mesa", nullable = false)
+    private DisponibilidadeMesa descricao;
 
     @AssertTrue(message = "Mesa disponível.")
     public boolean isDisponivel(){
-        return status == Status.DISPONIVEL;
+        return descricao == DisponibilidadeMesa.DISPONIVEL;
     }
 }

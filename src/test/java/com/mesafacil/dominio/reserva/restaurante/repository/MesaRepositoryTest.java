@@ -1,6 +1,6 @@
 package com.mesafacil.dominio.reserva.restaurante.repository;
 
-import com.mesafacil.dominio.reserva.restaurante.enumeration.Status;
+import com.mesafacil.dominio.reserva.restaurante.enumeration.DisponibilidadeMesa;
 import com.mesafacil.dominio.reserva.restaurante.model.Mesa;
 import com.mesafacil.dominio.reserva.restaurante.model.Restaurante;
 import org.junit.jupiter.api.AfterEach;
@@ -93,7 +93,7 @@ public class MesaRepositoryTest {
                             .localizacao("Endereço X, Rua Y, Loja Z")
 //                          .tiposDeCulinaria("ITALIANA)
                             .build())
-                .status(Status.DISPONIVEL)
+                .descricao(DisponibilidadeMesa.DISPONIVEL)
                 .build();
     }
 }
