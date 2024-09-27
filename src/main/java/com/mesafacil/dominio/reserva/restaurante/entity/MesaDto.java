@@ -15,9 +15,9 @@ public record MesaDto(
         int numeroMesa,
 
         @NotNull
-        DisponibilidadeMesa status
+        DisponibilidadeMesa descricao
 ) {
-        public boolean isDisponivel(){
-                return status == DisponibilidadeMesa.DISPONIVEL;
-        }
+//        public boolean isDisponivel(){
+//                return descricao == DisponibilidadeMesa.DISPONIVEL;
+//        }
 }

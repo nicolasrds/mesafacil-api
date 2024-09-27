@@ -47,12 +47,14 @@ public class RestauranteService {
         return horarioFuncionamento;
     }
 
-    @CacheEvict(allEntries = true, cacheNames = "mesaCache")
-    public Mesa cadastrarMesa(MesaDto mesaDto) {
-        Mesa mesa = mesaMapper.dtoToEntity(mesaDto);
-        mesaRepository.save(mesa);
-        return mesa;
-    }
+//    @CacheEvict(allEntries = true, cacheNames = "mesaCache")
+//    public Mesa cadastrarMesa(MesaDto mesaDto) {
+//        Mesa mesa = mesaMapper.dtoToEntity(mesaDto);
+//        mesaRepository.save(mesa);
+//        return mesa;
+//    }
+
+
 
     /**
      * unless = "#result == null": Indica que o resultado não será armazenado no cache se for nulo.

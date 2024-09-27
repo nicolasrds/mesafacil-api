@@ -18,7 +18,7 @@ public class Mesa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "mes_id")
-    private Long id;
+    private Long idMesa;
 
     @NotNull
     @ManyToOne()
@@ -34,8 +34,8 @@ public class Mesa {
     @Column(name = "dis_mesa", nullable = false)
     private DisponibilidadeMesa descricao;
 
-    @AssertTrue(message = "Mesa disponível.")
-    public boolean isDisponivel(){
-        return descricao == DisponibilidadeMesa.DISPONIVEL;
-    }
+//    @AssertTrue(message = "Mesa disponível.")
+//    public boolean isDisponivel(){
+//        return descricao == DisponibilidadeMesa.DISPONIVEL;
+//    }
 }

@@ -66,7 +66,7 @@ public class MesaRepositoryTest {
                 .isPresent()
                 .containsSame(mesa);
         mesaRecebidaOpcional.ifPresent(mesaRecebida ->{
-            assertThat(mesaRecebida.getId()).isEqualTo(mesa.getId());
+            assertThat(mesaRecebida.getIdMesa()).isEqualTo(mesa.getIdMesa());
             assertThat(mesaRecebida.getNumeroMesa()).isEqualTo(mesa.getNumeroMesa());
         });
         verify(mesaRepository, times(1)).findById(id);
@@ -85,7 +85,7 @@ public class MesaRepositoryTest {
 
     private Mesa registrarMesa(){
         return Mesa.builder()
-                .id(2222L)
+                .idMesa(2222L)
                 .numeroMesa(1)
                 .restaurante(Restaurante.builder()
                             .id(1111L)

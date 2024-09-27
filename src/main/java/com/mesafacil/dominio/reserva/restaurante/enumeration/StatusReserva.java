@@ -1,12 +1,13 @@
 package com.mesafacil.dominio.reserva.restaurante.enumeration;
 
-public enum DisponibilidadeMesa {
-    DISPONIVEL("Disponível"),
-    INDISPONIVEL("Indisponível");
+public enum StatusReserva {
+    PENDENTE("Pendente"),
+    CONFIRMADA("Confirmada"),
+    CANCELADA("Cancelada");
 
     private final String descricao;
 
-    DisponibilidadeMesa(String descricao) {
+    StatusReserva(String descricao) {
         this.descricao = descricao;
     }
 

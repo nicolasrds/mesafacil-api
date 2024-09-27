@@ -32,7 +32,7 @@ public class RestauranteResource {
     private final RestauranteService restauranteService;
     private final RestauranteMapper restauranteMapper;
     private final HorarioFuncionamentoMapper horarioFuncionamentoMapper;
-    private final MesaMapper mesaMapper;
+//    private final MesaMapper mesaMapper;
 
 
     @GetMapping
@@ -60,12 +60,12 @@ public class RestauranteResource {
                 .body(horarioFuncionamentoMapper.entityToDto(horarioFuncionamento));
     }
 
-    @PostMapping("/cadastrar-mesa")
-    @ResponseStatus(HttpStatus.CREATED)
-    @Operation(summary = "Cadastra uma nova mesa.", method = "PUT")
-    public ResponseEntity<MesaDto> cadastrarMesa(@Valid @RequestBody MesaDto mesaDto) {
-        Mesa mesa = restauranteService.cadastrarMesa(mesaDto);
-        return ResponseEntity.created(UriUtil.createUriWithId(mesa.getId()))
-                .body(mesaMapper.entityToDto(mesa));
-    }
+//    @PostMapping("/cadastrar-mesa")
+//    @ResponseStatus(HttpStatus.CREATED)
+//    @Operation(summary = "Cadastra uma nova mesa.", method = "PUT")
+//    public ResponseEntity<MesaDto> cadastrarMesa(@Valid @RequestBody MesaDto mesaDto) {
+//        Mesa mesa = restauranteService.cadastrarMesa(mesaDto);
+//        return ResponseEntity.created(UriUtil.createUriWithId(mesa.getId()))
+//                .body(mesaMapper.entityToDto(mesa));
+//    }
 }
