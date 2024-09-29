@@ -1,5 +1,6 @@
 package com.mesafacil.infra.config;
 
+import com.mesafacil.dominio.reserva.avaliacao.mapper.AvaliacaoMapper;
 import com.mesafacil.dominio.reserva.restaurante.mapper.HorarioFuncionamentoMapper;
 import com.mesafacil.dominio.reserva.restaurante.mapper.RestauranteMapper;
 import org.mapstruct.factory.Mappers;
@@ -12,6 +13,11 @@ public class MapperConfig {
     @Bean
     public RestauranteMapper restauranteMapper() {
         return Mappers.getMapper(RestauranteMapper.class);
+    }
+
+    @Bean
+    public AvaliacaoMapper avaliacaoMapper() {
+        return Mappers.getMapper(AvaliacaoMapper.class);
     }
 
     @Bean
