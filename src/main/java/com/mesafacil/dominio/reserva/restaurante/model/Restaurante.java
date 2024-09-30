@@ -12,6 +12,7 @@ import java.util.List;
 @Entity
 @Table(name = "restaurante", schema = "reserva")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
