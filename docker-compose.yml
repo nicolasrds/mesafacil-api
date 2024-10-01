@@ -3,8 +3,8 @@ services:
   app:
     image: mesafacil-api:latest
     environment:
-      - HOST_DB=database-mesa-facil.c3yym4e4mphl.us-east-1.rds.amazonaws.com
-      - USER_DB=postgres
-      - PASSWORD_DB=94.Gr,Ed
+      - HOST_DB=
+      - USER_DB=
+      - PASSWORD_DB=
     ports:
       - "8080:8080"
