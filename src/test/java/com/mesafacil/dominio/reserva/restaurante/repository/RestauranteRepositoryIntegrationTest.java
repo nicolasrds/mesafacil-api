@@ -2,36 +2,53 @@ package com.mesafacil.dominio.reserva.restaurante.repository;
 
 import com.mesafacil.dominio.reserva.restaurante.enumeration.TipoDeCulinaria;
 import com.mesafacil.dominio.reserva.restaurante.model.Restaurante;
+import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
-@ExtendWith(MockitoExtension.class)
-class RestauranteRepositoryTest {
 
-    @Mock
+@SpringBootTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Transactional
+@ActiveProfiles("test")
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+class RestauranteRepositoryIntegrationTest {
+
+    @Autowired
     private RestauranteRepository restauranteRepository;
 
+
     @Test
+    @Order(1)
+    void devePermitirCriarTabela() {
+        var totalRegistros = restauranteRepository.count();
+        assertThat(totalRegistros).isGreaterThanOrEqualTo(0);
+    }
+
+    @Test
+    @Order(2)
     void devePermitirRegistrarRestaurante() {
         //ARRANGE
         var restaurante = gerarRestaurante();
-        Mockito.when(restauranteRepository.save(Mockito.any(Restaurante.class))).thenReturn(restaurante);
+        restaurante.setId(1L);
 
         //ACT
         var restauranteSalvo = restauranteRepository.save(restaurante);
 
         //ASSERT
-        verify(restauranteRepository, times(1)).save(Mockito.any(Restaurante.class));
         assertThat(restauranteSalvo)
                 .isInstanceOf(Restaurante.class)
                 .isNotNull()
@@ -47,18 +64,13 @@ class RestauranteRepositoryTest {
     @Test
     void devePermitirConsultarRestaurante() {
         //ARRANGE
-        Long id = 1L;
-        var restaurante = gerarRestaurante();
-        restaurante.setId(id);
-
-        Mockito.when(restauranteRepository.findById(Mockito.any(Long.class))).thenReturn(Optional.of(restaurante));
+        var restaurante = registraRestaurante();
+        Long id = restaurante.getId();
 
         //ACT
         Optional<Restaurante> restauranteSalvo = restauranteRepository.findById(id);
 
         //ASSERT
-        verify(restauranteRepository, times(1)).findById(id);
-
         assertThat(restauranteSalvo)
                 .isPresent()
                 //Verifica se o valor contido no Optional é o mesmo objeto (não apenas equivalente) que o objeto restaurante.
@@ -74,39 +86,27 @@ class RestauranteRepositoryTest {
     @Test
     void devePermitirApagarRestaurantes() {
         //ARRANGE
-        Long id = new Random().nextLong();
-        /**
-         * doNothing(): Configura o Mockito para não fazer nada quando um método específico for chamado.
-         * Isso é útil quando você está testando código que interage com um objeto, mas não quer que o método real
-         * seja executado. Em vez disso, ele "finge" que foi chamado sem realizar qualquer ação.
-         */
-        doNothing().when(restauranteRepository).deleteById(id);
+        Long id = 1L;
 
         //ACT
         restauranteRepository.deleteById(id);
+        Optional<Restaurante> restauranteSalvo = restauranteRepository.findById(id);
 
         //ASSERT
-        verify(restauranteRepository, times(1)).deleteById(id);
+        assertThat(restauranteSalvo).isEmpty();
 
     }
 
     @Test
     void devePermitirConsultarRestaurantes() {
-        //ARRANGE
-        var restaurante1 = gerarRestaurante();
-        var restaurante2 = gerarRestaurante();
-        var listaRestaurantes = Arrays.asList(restaurante1, restaurante2);
-
-        Mockito.when(restauranteRepository.findAll()).thenReturn(listaRestaurantes);
 
         //ACT
-        var resultado = restauranteRepository.findAll();
-
         //ASSERT
-        verify(restauranteRepository, times(1)).findAll();
-        assertThat(resultado)
-                .hasSize(2)
-                .containsExactlyInAnyOrder(restaurante1, restaurante2);
+        assertThatCode(() -> {
+            var resultado = restauranteRepository.findAll();
+            assertThat(resultado)
+                    .isInstanceOf(List.class);
+        }).doesNotThrowAnyException();
     }
 
     private Restaurante gerarRestaurante() {
@@ -115,5 +115,10 @@ class RestauranteRepositoryTest {
                 .localizacao("Endereço")
                 .tiposDeCulinaria(Arrays.asList(TipoDeCulinaria.values()))
                 .build();
+    }
+
+    private Restaurante registraRestaurante() {
+        Restaurante restaurante = gerarRestaurante();
+        return restauranteRepository.save(restaurante);
     }
 }

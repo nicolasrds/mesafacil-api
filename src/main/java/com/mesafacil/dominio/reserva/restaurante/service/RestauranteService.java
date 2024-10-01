@@ -8,8 +8,7 @@ import com.mesafacil.dominio.reserva.restaurante.model.Restaurante;
 import com.mesafacil.dominio.reserva.restaurante.repository.HorarioFuncionamentoRepository;
 import com.mesafacil.dominio.reserva.restaurante.repository.MesaRepository;
 import com.mesafacil.dominio.reserva.restaurante.repository.RestauranteRepository;
-import com.mesafacil.dominio.reserva.restaurante.usecase.UseCaseRestauranteHorario;
-import com.mesafacil.infra.exception.RegraDeNegocioException;
+import com.mesafacil.dominio.reserva.restaurante.useCase.UseCaseRestauranteHorario;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -19,7 +18,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -32,8 +30,8 @@ public class RestauranteService {
     private final List<UseCaseRestauranteHorario> useCaseRestauranteHorarios;
 
     @CacheEvict(allEntries = true, cacheNames = "restauranteCache")
-    public Restaurante cadastrar(Restaurante restaurante) {
-       return restauranteRepository.save(restaurante);
+    public void cadastrar(Restaurante restaurante) {
+        restauranteRepository.save(restaurante);
     }
 
     @CacheEvict(allEntries = true, cacheNames = "restauranteCache")
@@ -45,6 +43,15 @@ public class RestauranteService {
         return horarioFuncionamento;
     }
 
+//    @CacheEvict(allEntries = true, cacheNames = "mesaCache")
+//    public Mesa cadastrarMesa(MesaDto mesaDto) {
+//        Mesa mesa = mesaMapper.dtoToEntity(mesaDto);
+//        mesaRepository.save(mesa);
+//        return mesa;
+//    }
+
+
+
     /**
      * unless = "#result == null": Indica que o resultado não será armazenado no cache se for nulo.
      * Isso é útil para evitar armazenar resultados vazios.
@@ -55,18 +62,5 @@ public class RestauranteService {
         return restauranteRepository.findAll(pageable);
     }
 
-    @Cacheable(key = "#id", unless = "#result == null ")
-    public Restaurante buscarPor(Long id) {
-        return restauranteRepository.findById(id)
-                .orElseThrow(() -> new RegraDeNegocioException("Restaurante não encontrada"));
-    }
-
-    @CacheEvict(allEntries = true, cacheNames = "restauranteCache")
-    public void deletar(Long id) {
-        Optional<Restaurante> restaurante = restauranteRepository.findById(id);
-        if (restaurante.isPresent()) {
-            restauranteRepository.delete(restaurante.get());
-        }
-    }
 
 }

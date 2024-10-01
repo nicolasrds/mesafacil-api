@@ -3,9 +3,9 @@ package com.mesafacil.dominio.reserva.restaurante.entity;
 import com.mesafacil.dominio.reserva.restaurante.enumeration.TipoDeCulinaria;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
-import java.util.List;
 import org.hibernate.validator.constraints.Length;
 
+import java.util.List;
 
 public record RestauranteDto(
 

@@ -1,4 +1,4 @@
-package com.mesafacil.dominio.reserva.restaurante.usecase;
+package com.mesafacil.dominio.reserva.restaurante.useCase;
 
 import com.mesafacil.dominio.reserva.restaurante.entity.HorarioFuncionamentoDto;
 
