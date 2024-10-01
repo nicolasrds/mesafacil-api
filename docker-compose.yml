@@ -1,10 +1,44 @@
-version: '3'
 services:
-  app:
-    image: mesafacil-api:latest
+  mesafacil-api:
+    image: 'mesafacil-api:latest'
+    build:
+      context: .
+    container_name: mesafacil-api
+    depends_on:
+      - postgres-db
     environment:
-      - HOST_DB=
-      - USER_DB=
-      - PASSWORD_DB=
+      - POSTGRES_USER=${USER_DB}
+      - POSTGRES_PASSWORD=${PASSWORD_DB}
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/mesafacil
+      - SPRING_DATASOURCE_USERNAME=${USER_DB}
+      - SPRING_DATASOURCE_PASSWORD=${PASSWORD_DB}
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     ports:
       - "8080:8080"
+    env_file:
+      - .env
+    networks:
+      - mesafacil-api-network
+
+  postgres-db:
+    image: postgres:16.3
+    container_name: postgres-db
+    volumes:
+      - ./scripts-db/01-create-schema.sql:/docker-entrypoint-initdb.d/01-create-schema.sql
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=${USER_DB}
+      - POSTGRES_PASSWORD=${PASSWORD_DB}
+      - POSTGRES_DB=mesafacil
+    networks:
+      - mesafacil-api-network
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+volumes:
+  pgdata:
+
+networks:
+  mesafacil-api-network:
+    driver: bridge
