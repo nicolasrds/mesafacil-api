@@ -1,4 +1,4 @@
-package com.mesafacil.dominio.reserva.restaurante.useCase;
+package com.mesafacil.dominio.reserva.restaurante.usecase;
 
 import com.mesafacil.dominio.reserva.restaurante.entity.HorarioFuncionamentoDto;
 import com.mesafacil.dominio.reserva.restaurante.enumeration.DiaDaSemana;
@@ -6,6 +6,7 @@ import com.mesafacil.dominio.reserva.restaurante.repository.HorarioFuncionamento
 import com.mesafacil.infra.exception.RegraDeNegocioException;
 import com.mesafacil.infra.util.MessageService;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -36,27 +37,31 @@ class ChecarHorarioConflitanteTest {
     @Mock
     private MessageService messageService;
 
-    @Test
-    @DisplayName("Deve checar o horário e não permitir registrar")
-    void naoDeveriaPermitirCadastrarHorario() {
-        // Arrange
-        HorarioFuncionamentoDto horarioFuncionamento = criarHorarioFuncionamento(true);
 
-        // Act & Assert
-        assertThrows(RegraDeNegocioException.class, () -> checarHorarioConflitante.validar(horarioFuncionamento));
-    }
+    @Nested
+    class RegistrarRestaurante {
+        @Test
+        @DisplayName("Deve checar o horário e não permitir registrar")
+        void naoDeveriaPermitirCadastrarHorario() {
+            // Arrange
+            HorarioFuncionamentoDto horarioFuncionamento = criarHorarioFuncionamento(true);
 
-    @Test
-    @DisplayName("Não deve lançar exceção quando horário não conflita")
-    void deveriaPermitirCadastrarHorario() {
-        // Arrange
-        HorarioFuncionamentoDto horarioFuncionamento = criarHorarioFuncionamento(false);
+            // Act & Assert
+            assertThrows(RegraDeNegocioException.class, () -> checarHorarioConflitante.validar(horarioFuncionamento));
+        }
 
-        // Act & Assert
-        assertDoesNotThrow(() ->
-                checarHorarioConflitante.validar(horarioFuncionamento)
-        );
+        @Test
+        @DisplayName("Não deve lançar exceção quando horário não conflita")
+        void deveriaPermitirCadastrarHorario() {
+            // Arrange
+            HorarioFuncionamentoDto horarioFuncionamento = criarHorarioFuncionamento(false);
 
+            // Act & Assert
+            assertDoesNotThrow(() ->
+                    checarHorarioConflitante.validar(horarioFuncionamento)
+            );
+
+        }
     }
 
     private HorarioFuncionamentoDto criarHorarioFuncionamento(boolean existeConflitante) {

@@ -3,10 +3,7 @@ package com.mesafacil.dominio.reserva.restaurante.model;
 import com.mesafacil.dominio.reserva.restaurante.enumeration.DiaDaSemana;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -16,6 +13,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @EqualsAndHashCode(of = "id")
 public class HorarioFuncionamento {
 

@@ -8,7 +8,6 @@ import java.util.List;
 
 @Mapper
 public interface RestauranteMapper {
-//    RestauranteMapper INSTANCE = Mappers.getMapper(RestauranteMapper.class);
 
     Restaurante dtoToEntity(RestauranteDto dto);
 
