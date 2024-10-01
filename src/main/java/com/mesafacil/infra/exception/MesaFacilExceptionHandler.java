@@ -21,40 +21,35 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.NoSuchElementException;
 
-
-/**
- * TDB.
- */
 @AllArgsConstructor
 @RestControllerAdvice
 public class MesaFacilExceptionHandler {
-
-    private static final String RECURSO_NAO_ENCONTRADO ="recurso.nao-encontrado";
 
     private final MessageService messageService;
 
     @ExceptionHandler({EntityNotFoundException.class})
     public ResponseEntity tratarErro404(EntityNotFoundException ex) {
         return ResponseEntity.badRequest().body((new DadosErro(
-                ex, messageService.getMessage(RECURSO_NAO_ENCONTRADO))));
+                ex, messageService.getMessage("recurso.nao-encontrado"))));
     }
 
     @ExceptionHandler({NoResourceFoundException.class})
     public ResponseEntity tratarErro404(NoResourceFoundException ex) {
         return ResponseEntity.badRequest().body((new DadosErro(
-                ex, messageService.getMessage(RECURSO_NAO_ENCONTRADO))));
+                ex, messageService.getMessage("recurso.nao-encontrado"))));
     }
 
     @ExceptionHandler({MethodNotFoundException.class,})
     public ResponseEntity tratarErro404(MethodNotFoundException ex) {
         return ResponseEntity.badRequest().body((new DadosErro(
-                ex, messageService.getMessage(RECURSO_NAO_ENCONTRADO))));
+                ex, messageService.getMessage("recurso.nao-encontrado"))));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity tratarErro400(MethodArgumentNotValidException ex) {
         var erros = ex.getFieldErrors();
-        return ResponseEntity.badRequest().body(erros.stream().map(erro -> new DadosErroValidacao(erro, messageService.getMessage("methodArgumentNotValidMessage"))).toList());
+        return ResponseEntity.badRequest().body(erros.stream().map(erro ->
+                new DadosErroValidacao(erro, messageService.getMessage("methodArgumentNotValidMessage"))).toList());
     }
 
     @ExceptionHandler({UnexpectedTypeException.class})
@@ -104,7 +99,6 @@ public class MesaFacilExceptionHandler {
         return ResponseEntity.badRequest().body((new DadosErro(
                 ex, messageService.getMessage("noSuchElementExceptionMessage"))));
     }
-
     @ExceptionHandler(LazyInitializationException.class)
     public ResponseEntity<Object> handleLazyInitializationExceptionException(LazyInitializationException ex) {
         return ResponseEntity.badRequest().body((new DadosErro(
