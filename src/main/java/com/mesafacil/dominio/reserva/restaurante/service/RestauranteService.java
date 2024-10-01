@@ -1,11 +1,9 @@
 package com.mesafacil.dominio.reserva.restaurante.service;
 
 import com.mesafacil.dominio.reserva.restaurante.entity.HorarioFuncionamentoDto;
-import com.mesafacil.dominio.reserva.restaurante.entity.MesaDto;
 import com.mesafacil.dominio.reserva.restaurante.mapper.HorarioFuncionamentoMapper;
 import com.mesafacil.dominio.reserva.restaurante.mapper.MesaMapper;
 import com.mesafacil.dominio.reserva.restaurante.model.HorarioFuncionamento;
-import com.mesafacil.dominio.reserva.restaurante.model.Mesa;
 import com.mesafacil.dominio.reserva.restaurante.model.Restaurante;
 import com.mesafacil.dominio.reserva.restaurante.repository.HorarioFuncionamentoRepository;
 import com.mesafacil.dominio.reserva.restaurante.repository.MesaRepository;
@@ -32,8 +30,6 @@ public class RestauranteService {
     private final RestauranteRepository restauranteRepository;
     private final HorarioFuncionamentoMapper horarioFuncionamentoMapper;
     private final List<UseCaseRestauranteHorario> useCaseRestauranteHorarios;
-    private final MesaRepository mesaRepository;
-    private final MesaMapper mesaMapper;
 
     @CacheEvict(allEntries = true, cacheNames = "restauranteCache")
     public Restaurante cadastrar(Restaurante restaurante) {
